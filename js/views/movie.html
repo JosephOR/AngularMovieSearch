@@ -1,0 +1,100 @@
+<div class="container-fluid" id="mov-top">
+
+	<section class="row introduce-movie" id="movie-goto">
+		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+			<p>I recently started looking into using online databases, such as sport, music
+			 and movies. This page is a test page for using an online movie API to make requests
+			 and display the retrieved data.</p>
+		</div>
+	</section>
+	<div class="row movie" panel-height>
+		<div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-2">
+				<form ng-submit="getMovies()">
+					<label for="film">Search for film</label><br />
+					<div class="input-group">
+						<input type="text" name="film" ng-model="filmName">
+						<span class="input-group-addon"  ng-click="getMovies()">
+	                		<i class="fa fa-search"></i>
+	            		</span>
+            		</div>
+				</form>
+				<!-- <button class="btn btn-primary" ng-click="getMovies()">search</button> -->
+		</div>
+		<div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
+				<form ng-submit="getActors()">
+					<label for="actor">Search for Actor</label><br />
+					<div class="input-group">
+						<input type="text" name="actor" ng-model="Name">
+						<span class="input-group-addon" ng-click="getActors()">
+	                		<i class="fa fa-search" ></i>
+	            		</span>
+            		</div>
+				</form>
+				<!-- <button class="btn btn-primary" ng-click="getActors()">search</button> -->
+		</div>
+		<div class="col-xs-8 col-xs-offset-2 col-sm-2 col-sm-offset-0">
+				<form>
+					<label for="filter">Filter search</label><br />
+					
+						<input type="text" name="filter" ng-model="name">
+				</form>
+		</div>
+	</div>
+	
+	<section class="row introduce" ng-show="movies.results === undefined && actors.results === undefined && films.cast === undefined">
+		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+			<p>Search by film to see a list films containing that word, or search by actor to see a list of actors by that name.</p>
+		</div>
+	</section>
+
+	<section class="row introduce" ng-show="movies.results.length === 0 || actors.results.length === 0 || films.cast.results === 0">
+		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+			<p>Your search returned no matches, please search again.</p>
+		</div>
+	</section>
+
+	<section class="movie-results">	    
+		<div class="col-xs-10 col-xs-offset-1 col-sm-4 col-md-2 col-sm-offset-0 movie-item" ng-repeat="(key, val) in movies.results | filter:name" ng-hide="val.poster_path === null" >
+			<h3 class="movie-title">{{val.title}}
+			</h3>
+			<img src="http://image.tmdb.org/t/p/w500{{val.poster_path}}" width="100%"  panel-height>
+			<div class="movie-details-holder">
+				<span class="movie-details ">Released: {{val.release_date}}</span>
+				<span class="movie-details ">Rating: {{val.vote_average}}</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="movie-results">
+		<div class="col-xs-10 col-xs-offset-1 col-sm-4 col-md-2 col-sm-offset-0 movie-item" ng-repeat="(key, val) in actors.results | filter:name" ng-hide="val.profile_path === null" >
+			<h3 class="movie-title">{{val.name}}
+			</h3>
+			<img src="http://image.tmdb.org/t/p/w500{{val.profile_path}}" width="100%"  panel-height>
+			<br />
+			<div class="actor-details-holder">
+				<button class="btn btn-primary btn-text" ng-click="getFilms(val.id)">See All films</button>
+			</div>
+		</div>
+	</section>
+
+
+	<section class="movie-results">	    
+		<div class="col-xs-10 col-xs-offset-1 col-sm-4 col-md-2 col-sm-offset-0 movie-item" ng-repeat="(key, val) in films.cast | filter:name" ng-hide="val.poster_path === null" >
+			<h3 class="movie-title">{{val.original_title}}
+			</h3>
+			<img src=" http://image.tmdb.org/t/p/w500{{val.poster_path}}" width="100%"  panel-height>
+			<br />
+			<div class="actor-details-holder">
+				<span class="movie-details pull-left">Released: {{val.release_date}}</span>
+			</div>
+			
+		</div>
+	</section>
+
+	<div class="row TMDb">
+			<a href="https://www.themoviedb.org/" target="_blank"><img src="https://d3a8mw37cqal2z.cloudfront.net/images/logos/var_1_1_PoweredByTMDB_Blk_Logo_Antitled.png"  width="200px" alt=""></a>
+			<p>"This product uses the TMDb API but is not endorsed or certified by TMDb."</p>
+	</div>
+	
+	
+</div>
